@@ -47,5 +47,29 @@ void ProcessFrame::processFrame(Mat &frameRGB) {
         cv::cvtColor(frameRGB, frameRGB, cv::COLOR_HSV2BGR);
     }
 }
+void ProcessFrame::processThermalFrame(cv::Mat& thermalFrame) {
+    if (localCap.isOpened()) {
+        // Apply a colormap to enhance visualization (adjust based on your camera's characteristics)
+        cv::applyColorMap(thermalFrame, thermalFrame, cv::COLORMAP_JET);
+
+        // Define a temperature range for the "hot" areas in your thermal data
+        double minTemperature = 30.0;  // Adjust based on your specific data
+        double maxTemperature = 100.0;
+
+        // Normalize the thermal data to the range [0, 255] for proper visualization
+        cv::normalize(thermalFrame, thermalFrame, 0, 255, cv::NORM_MINMAX);
+
+        // Threshold the image to highlight regions with temperatures above a certain threshold
+        cv::Mat hotRegions;
+        cv::threshold(thermalFrame, hotRegions, 200, 255, cv::THRESH_BINARY);
+
+        // Create a matrix with a custom color for hot regions
+        cv::Mat hotColorMatrix(thermalFrame.size(), thermalFrame.type(), cv::Scalar(0, 0, 255));
+
+        // Blend the hot color matrix with the original thermal frame
+        cv::bitwise_and(hotColorMatrix, hotRegions, hotColorMatrix);
+        cv::addWeighted(thermalFrame, 1.0, hotColorMatrix, 0.5, 0.0, thermalFrame);
+    }
+}
 
 

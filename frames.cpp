@@ -32,12 +32,13 @@ Frames::initCam()
     auto cameraDevice = new QCamera(QMediaDevices::defaultVideoInput());
     const QList<QCameraDevice> cameras = QMediaDevices::videoInputs();
     for (const QCameraDevice &cDevice : cameras)
-    {       
+    {
+        qDebug() << cDevice.description();
         if (cDevice.position() == QCameraDevice::FrontFace)
         {
             cameraDevice = new QCamera(cDevice);
         }
-        if (cDevice.description().contains("Front Camera"))
+        if (cDevice.description().contains("FaceTime"))
         {
             cameraDevice = new QCamera(cDevice);
         }
@@ -60,7 +61,7 @@ Frames::initCam()
             for (const auto &fmt : formats) {
                 qDebug() << fmt.resolution().width() << "x" << fmt.resolution().height();
                 if (fmt.pixelFormat() == QVideoFrameFormat::Format_NV12) {
-                    int distance = calculateDistance(1280, 720, fmt.resolution().width(), fmt.resolution().height());
+                    int distance = calculateDistance(1920, 1080, fmt.resolution().width(), fmt.resolution().height());
 
                     if (distance < minDistance) {
                         minDistance = distance;

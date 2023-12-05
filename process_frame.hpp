@@ -21,6 +21,7 @@ public:
     // Load Settings
     bool load(int camIndex);
     void processFrame(Mat &frameRGB);
+    void processThermalFrame(Mat &thermalFrame);
 
     int64_t get_current_time()
     {

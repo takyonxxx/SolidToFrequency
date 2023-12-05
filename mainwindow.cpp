@@ -109,7 +109,7 @@ void MainWindow::processFrame(QVideoFrame &frame)
         if(!frameRGB.empty())
         {
 
-            rppg->processFrame(frameRGB);
+            rppg->processThermalFrame(frameRGB);
 
             QImage img_face((uchar*)frameRGB.data, frameRGB.cols, frameRGB.rows, frameRGB.step, QImage::Format_RGB888);
             pixmap.setPixmap( QPixmap::fromImage(img_face));
