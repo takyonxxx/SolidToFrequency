@@ -8,15 +8,12 @@
 #include <QGraphicsPixmapItem>
 #include <QMediaDevices>
 #include "frames.h"
-//#include "capturethread.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 #include "process_frame.hpp"
-
-using namespace cv;
 
 Q_DECLARE_METATYPE(cv::Mat);
 
@@ -35,7 +32,7 @@ private:
     QMediaCaptureSession m_captureSession;
     QScopedPointer<QCamera> m_camera;
     Frames *m_frames;
-    ProcessFrame *rppg{};
+    ProcessFrame *process_frame{};
 
 private slots:
     void processFrame(QVideoFrame&);

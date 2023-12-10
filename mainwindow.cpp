@@ -24,9 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->graphicsView->scene()->addItem(&pixmap);
 
-    rppg = new ProcessFrame();
-    connect(rppg, &ProcessFrame::sendInfo, this, &MainWindow::printInfo);
-    rppg->load(0);
+    process_frame = new ProcessFrame();
+    connect(process_frame, &ProcessFrame::sendInfo, this, &MainWindow::printInfo);
+    process_frame->load(0);
 
     m_frames = new Frames();
     connect(m_frames, &Frames::sendInfo, this, &MainWindow::printInfo);
@@ -39,8 +39,8 @@ MainWindow::~MainWindow()
     if(m_frames)
         delete m_frames;
 
-    if(rppg)
-        delete rppg;
+    if(process_frame)
+        delete process_frame;
 
     delete ui;
 }
@@ -109,7 +109,7 @@ void MainWindow::processFrame(QVideoFrame &frame)
         if(!frameRGB.empty())
         {
 
-            rppg->processThermalFrame(frameRGB);
+            process_frame->processThermalFrame(frameRGB);
 
             QImage img_face((uchar*)frameRGB.data, frameRGB.cols, frameRGB.rows, frameRGB.step, QImage::Format_RGB888);
             pixmap.setPixmap( QPixmap::fromImage(img_face));

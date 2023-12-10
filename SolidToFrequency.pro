@@ -31,24 +31,13 @@ FORMS += \
 win32 {
     message("Win32 enabled")
 
-
-    # Default rules for deployment.
-    qnx: target.path = /tmp/$${TARGET}/bin
-    else: unix:!android: target.path = /opt/$${TARGET}/bin
-    !isEmpty(target.path): INSTALLS += target
-
-    RC_ICONS += $$\PWD\icons\heart-rate.png
-    LIBS += -L$$(OPENCV_DIR)/lib -lopencv_world452
-    INCLUDEPATH += C:/opencv/build/include
+    RC_ICONS += $$PWD/icons/camera.ico
+    LIBS += -L$$PWD/opencv4/x64/vc16/lib -lopencv_world480
+    INCLUDEPATH += $$PWD/opencv4/include
 }
 
 unix:!macx:!ios:!android {
     message("linux enabled")
-
-    # Default rules for deployment.
-    qnx: target.path = /tmp/$${TARGET}/bin
-    else: unix:!android: target.path = /opt/$${TARGET}/bin
-    !isEmpty(target.path): INSTALLS += target
 
     INCLUDEPATH += /usr/lib
     INCLUDEPATH += /usr/local/lib
@@ -155,6 +144,7 @@ DISTFILES += \
     android/res/drawable-xxhdpi/icon.png \
     android/res/drawable-xxxhdpi/icon.png \
     android/res/values/libs.xml \
+    icons/heart-rate.png \
     ios/Assets.xcassets/AppIcon.appiconset/1024.png \
     ios/Assets.xcassets/AppIcon.appiconset/114.png \
     ios/Assets.xcassets/AppIcon.appiconset/120.png \

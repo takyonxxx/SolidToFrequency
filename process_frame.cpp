@@ -1,7 +1,5 @@
 #include "process_frame.hpp"
 
-using namespace cv;
-using namespace std;
 
 ProcessFrame::ProcessFrame(QObject* parent)
     :QObject(parent)
@@ -51,10 +49,6 @@ void ProcessFrame::processThermalFrame(cv::Mat& thermalFrame) {
     if (localCap.isOpened()) {
         // Apply a colormap to enhance visualization (adjust based on your camera's characteristics)
         cv::applyColorMap(thermalFrame, thermalFrame, cv::COLORMAP_JET);
-
-        // Define a temperature range for the "hot" areas in your thermal data
-        double minTemperature = 30.0;  // Adjust based on your specific data
-        double maxTemperature = 100.0;
 
         // Normalize the thermal data to the range [0, 255] for proper visualization
         cv::normalize(thermalFrame, thermalFrame, 0, 255, cv::NORM_MINMAX);
