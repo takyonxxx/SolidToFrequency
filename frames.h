@@ -17,6 +17,7 @@ signals:
     void imageCaptured(QImage&);
     void frameCaptured(QVideoFrame&);
     void sendInfo(QString);
+    void cameraListUpdated(const QStringList &cameraDevices);
 
 public:
     // Function to calculate the Euclidean distance between two resolutions
@@ -29,7 +30,8 @@ public:
     explicit Frames( QObject * parent = nullptr );
     ~Frames() override;
 
-    void initCam();
+    void initializeCameraDevices();
+    void setCamera(const QString &);
 
 private slots:
     void stopCam();

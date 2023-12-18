@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->m_textStatus->setStyleSheet("font-size: 18pt; color: #cccccc; background-color: #003333;");
 #endif
     ui->graphicsView->setStyleSheet("font-size: 24pt; color:#ECF0F1; background-color: #212F3C; padding: 6px; spacing: 6px;");
-    ui->pushExit->setStyleSheet("font-size: 24pt; font: bold; color: #ffffff; background-color: #336699;");    
+    ui->pushExit->setStyleSheet("font-size: 24pt; font: bold; color: #ffffff; background-color: #336699;");
+    ui->cameraComboBox->setStyleSheet("font-size: 18pt; font: bold; color: #ffffff; background-color: orange;");
 
     //QString currentTime = QDateTime::currentDateTime().toString("yyyyMMddhhmmss");
     ui->graphicsView->setScene(new QGraphicsScene(this));
@@ -31,7 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_frames = new Frames();
     connect(m_frames, &Frames::sendInfo, this, &MainWindow::printInfo);
     connect(m_frames, &Frames::frameCaptured, this, &MainWindow::processFrame);
-    m_frames->initCam();
+    connect(m_frames, &Frames::cameraListUpdated, this, &MainWindow::onCameraListUpdated);
+    m_frames->initializeCameraDevices();
 }
 
 MainWindow::~MainWindow()
@@ -126,11 +128,27 @@ void MainWindow::processImage(QImage &img_face)
 
 void MainWindow::printInfo(QString info)
 {
-    ui->m_textStatus->append(info);
+    ui->m_textStatus->setText(info);
+}
+
+void MainWindow::onCameraListUpdated(const QStringList &cameraDevices)
+{
+    ui->cameraComboBox->clear();
+    ui->cameraComboBox->addItems(cameraDevices);
 }
 
 void MainWindow::on_pushExit_clicked()
 {
     qApp->exit();
+}
+
+
+void MainWindow::on_cameraComboBox_currentIndexChanged(int index)
+{
+    // Assuming you have a list of camera descriptions corresponding to the items in the combo box
+    QString selectedCameraDescription = ui->cameraComboBox->itemText(index);
+
+    // Call initCam with the selected camera description
+    m_frames->setCamera(selectedCameraDescription);
 }
 
