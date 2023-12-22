@@ -16,6 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setStyleSheet("font-size: 24pt; color:#ECF0F1; background-color: #212F3C; padding: 6px; spacing: 6px;");
     ui->pushExit->setStyleSheet("font-size: 24pt; font: bold; color: #ffffff; background-color: #336699;");
     ui->cameraComboBox->setStyleSheet("font-size: 18pt; font: bold; color: #ffffff; background-color: orange;");
+    ui->typeComboBox->setStyleSheet("font-size: 18pt; font: bold; color: #ffffff; background-color: orange;");
+
+    ui->typeComboBox->addItem("1");
+    ui->typeComboBox->addItem("2");
+    ui->typeComboBox->addItem("3");
 
     //QString currentTime = QDateTime::currentDateTime().toString("yyyyMMddhhmmss");
     ui->graphicsView->setScene(new QGraphicsScene(this));
@@ -110,9 +115,7 @@ void MainWindow::processFrame(QVideoFrame &frame)
 
         if(!frameRGB.empty())
         {
-
-            process_frame->processThermalFrame(frameRGB);
-
+            process_frame->processFrame(frameRGB, constantValue, processType);
             QImage img_face((uchar*)frameRGB.data, frameRGB.cols, frameRGB.rows, frameRGB.step, QImage::Format_RGB888);
             pixmap.setPixmap( QPixmap::fromImage(img_face));
             ui->graphicsView->fitInView(&pixmap, Qt::KeepAspectRatioByExpanding);
@@ -144,11 +147,21 @@ void MainWindow::on_pushExit_clicked()
 
 
 void MainWindow::on_cameraComboBox_currentIndexChanged(int index)
-{
-    // Assuming you have a list of camera descriptions corresponding to the items in the combo box
-    QString selectedCameraDescription = ui->cameraComboBox->itemText(index);
+{   
+    QString selectedText = ui->cameraComboBox->itemText(index);
+    m_frames->setCamera(selectedText);
+}
 
-    // Call initCam with the selected camera description
-    m_frames->setCamera(selectedCameraDescription);
+
+void MainWindow::on_constantScrollBar_valueChanged(int value)
+{
+    constantValue = value;
+}
+
+
+void MainWindow::on_typeComboBox_currentIndexChanged(int index)
+{
+    QString selectedText = ui->typeComboBox->itemText(index);
+    processType = selectedText.toInt();
 }
 

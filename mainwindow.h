@@ -33,6 +33,8 @@ private:
     QScopedPointer<QCamera> m_camera;
     Frames *m_frames;
     ProcessFrame *process_frame{};
+    int processType = 1;
+    int constantValue = 0;
 
 private slots:
     void processFrame(QVideoFrame&);
@@ -42,6 +44,10 @@ private slots:
     void on_pushExit_clicked();
 
     void on_cameraComboBox_currentIndexChanged(int index);
+
+    void on_constantScrollBar_valueChanged(int value);
+
+    void on_typeComboBox_currentIndexChanged(int index);
 
 private:
     Ui::MainWindow *ui;

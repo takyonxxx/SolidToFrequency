@@ -20,8 +20,10 @@ public:
     explicit ProcessFrame(QObject *parent = nullptr);
     // Load Settings
     bool load(int camIndex);
-    void processFrame(Mat &frameRGB);
-    void processThermalFrame(Mat &thermalFrame);
+    void processFrame(Mat &frameRGB, int, int);
+    void processFrame1(Mat &frameRGB, int);
+    void processFrame2(Mat &frameRGB, int);
+    void processFrame3(Mat &frameRGB, int);
 
     int64_t get_current_time()
     {
