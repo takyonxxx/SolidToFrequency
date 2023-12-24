@@ -31,7 +31,7 @@ FORMS += \
 win32 {
     message("Win32 enabled")
 
-    RC_ICONS += $$PWD/icons/camera.ico
+    RC_ICONS += $$PWD/icons/matrix.ico
     LIBS += -L$$PWD/opencv4/x64/vc16/lib -lopencv_world480
     INCLUDEPATH += $$PWD/opencv4/include
 }
